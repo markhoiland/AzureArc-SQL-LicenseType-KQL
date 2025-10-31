@@ -1,0 +1,12 @@
+// Query to list all SQL Server extensions that are NOT set to "PAYG" (Pay-As-You-Go) license type
+// This query filters SQL Server extensions to show only those NOT configured with PAYG licensing
+// This includes extensions with other license types (Paid, LicenseOnly) or no license type set
+
+resources
+| where type =~ 'microsoft.hybridcompute/machines/extensions'
+| where properties.type =~ 'WindowsSqlServerExtension' or properties.type =~ 'LinuxSqlServerExtension'
+| extend machineName = tostring(split(id, '/')[8])
+| extend licenseType = properties.settings.LicenseType
+| where licenseType !~ 'PAYG'
+| project machineName, extensionName = name, extensionType = properties.type, licenseType, provisioningState = properties.provisioningState, location, subscriptionId, resourceGroup
+| order by machineName asc
