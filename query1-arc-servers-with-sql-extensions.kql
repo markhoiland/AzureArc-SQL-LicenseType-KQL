@@ -1,0 +1,11 @@
+// Query to list all Azure Arc servers that have the SQL Server extensions deployed
+// This query looks for Azure Arc-enabled servers (Microsoft.HybridCompute/machines)
+// and checks if they have SQL Server extensions installed
+
+resources
+| where type =~ 'microsoft.hybridcompute/machines/extensions'
+| where properties.type =~ 'WindowsSqlServerExtension' or properties.type =~ 'LinuxSqlServerExtension'
+| extend machineName = tostring(split(id, '/')[8])
+| extend machineId = substring(id, 0, indexof(id, '/extensions/'))
+| project machineName, machineId, extensionName = name, extensionType = properties.type, provisioningState = properties.provisioningState, location, subscriptionId, resourceGroup
+| order by machineName asc
