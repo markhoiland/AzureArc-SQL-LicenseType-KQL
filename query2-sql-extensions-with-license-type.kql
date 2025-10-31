@@ -4,7 +4,7 @@
 
 resources
 | where type =~ 'microsoft.hybridcompute/machines/extensions'
-| where properties.type =~ 'WindowsSqlServerExtension' or properties.type =~ 'LinuxSqlServerExtension'
+| where properties.type =~ 'WindowsAgent.SqlServer' or properties.type =~ 'LinuxAgent.SqlServer'
 | extend machineName = tostring(split(id, '/')[8])
 | extend licenseType = properties.settings.LicenseType
 | extend sqlVersion = properties.settings.SqlManagement.IsEnabled
