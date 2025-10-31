@@ -1,12 +1,12 @@
-// Query to list all SQL Server extensions with the license type setting
-// This query retrieves SQL Server extensions on Azure Arc-enabled servers
-// and displays their license type configuration
+// Query to list all SQL Server extensions that are NOT set to "PAYG" (Pay-As-You-Go) license type
+// This query filters SQL Server extensions to show only those NOT configured with PAYG licensing
+// This includes extensions with other license types (Paid, LicenseOnly) or no license type set
 
 resources
 | where type =~ 'microsoft.hybridcompute/machines/extensions'
 | where properties.type =~ 'WindowsAgent.SqlServer' or properties.type =~ 'LinuxAgent.SqlServer'
 | extend machineName = tostring(split(id, '/')[8])
 | extend licenseType = properties.settings.LicenseType
-| extend sqlVersion = properties.settings.SqlManagement.IsEnabled
+| where licenseType !~ 'PAYG' or isempty(licenseType)
 | project machineName, extensionName = name, extensionType = properties.type, licenseType, provisioningState = properties.provisioningState, location, subscriptionId, resourceGroup
 | order by machineName asc

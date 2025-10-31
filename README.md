@@ -29,6 +29,11 @@ Azure Arc-enabled servers allow you to manage SQL Server instances running on-pr
   - Filters results to show only PAYG-licensed instances
   - Useful for identifying servers using consumption-based licensing
 
+- **query4-sql-extensions-non-payg-license.kql**
+  - Lists SQL Server extensions that are NOT configured with PAYG (Pay-As-You-Go) license type
+  - Filters results to show extensions with other license types (Paid, LicenseOnly) or no license type set
+  - Useful for identifying servers NOT using consumption-based licensing
+
 ### Documentation Files
 
 - **HOW-TO-RUN-QUERIES.md**
