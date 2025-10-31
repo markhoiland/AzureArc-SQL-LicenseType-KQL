@@ -1,0 +1,1 @@
+# AzureArc-SQL-LicenseType-KQL
