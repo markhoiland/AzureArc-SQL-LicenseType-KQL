@@ -7,5 +7,5 @@ resources
 | where properties.type =~ 'WindowsAgent.SqlServer' or properties.type =~ 'LinuxAgent.SqlServer'
 | extend machineName = tostring(split(id, '/')[8])
 | extend machineId = substring(id, 0, indexof(id, '/extensions/'))
-| project machineName, machineId, extensionName = name, extensionType = properties.type, provisioningState = properties.provisioningState, location, extensonVersion = properties.typeHandlerVersion, subscriptionId, resourceGroup
+| project machineName, machineId, extensionType = properties.type, provisioningState = properties.provisioningState, location, extensonVersion = properties.typeHandlerVersion, subscriptionId, resourceGroup
 | order by machineName asc
